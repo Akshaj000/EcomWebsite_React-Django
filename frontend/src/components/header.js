@@ -1,7 +1,11 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
 
 export default function Header(){
+
+    let {logoutUser}  = useContext(AuthContext)
 
     const dropdownbutton = (
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,16 +37,15 @@ export default function Header(){
                         Settings
                     </a>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <Dropdownarea href="" name="Profile"/>
-                            <Dropdownarea href="" name="Edit profile"/>
+                            <Dropdownarea href="/profile" name="Profile"/>
                             <Dropdownarea href="" name="Change password"/>
                             <div className="dropdown-divider"></div>
                             <Dropdownarea href="" name="Orders"/>
                             <Dropdownarea href="" name="Add Product"/>
                             <Dropdownarea href="" name="Add Category"/>
                             <div className="dropdown-divider"></div>
-                            <Dropdownarea href="" name="Logout"/>
-                            <Dropdownarea href="" name="Login"/>
+                            <Dropdownarea onClick={()=>logoutUser()} href="/login" name="Logout"/>
+                            <Dropdownarea href="/login" name="Login"/>
                             <Dropdownarea href="" name="Signup"/>
                         </div>
                     </li>
@@ -57,7 +60,7 @@ export default function Header(){
 function Navbaritem(props){
     return(
         <li className="nav-item">
-          <Link className="nav-link" to={props.href}>{props.name}</Link>
+          <Link className="nav-link" onClick={props.onClick} to={props.href}>{props.name}</Link>
         </li>
 
     );
@@ -65,7 +68,7 @@ function Navbaritem(props){
 
 function Dropdownarea(props){
     return(
-        <Link className="dropdown-item" to={props.href}>{props.name}</Link>
+        <Link className="dropdown-item" onClick={props.onClick} to={props.href}>{props.name}</Link>
     )
 
 }

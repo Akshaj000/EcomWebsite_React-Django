@@ -15,7 +15,7 @@ export default function Footer(){
                 <ul className="nav col-md-4 justify-content-end">
                     <Footeritem to="/" name="Home"/>
                     <Footeritem to="/cart" name="Cart"/>
-                    <Footeritem to="" name="Profile"/>
+                    <Footeritem to="/profile" name="Profile"/>
                     <Footeritem to="" name="Orders"/>
                 </ul>
             </footer>

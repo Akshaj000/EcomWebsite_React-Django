@@ -6,37 +6,46 @@ import ProductContext from "../context/ProductContext";
 import CartContext from "../context/CartContext";
 import { Navigate } from 'react-router';
 import {increment, decrement} from '../utils/functions'
+import Warningcard from "../components/WarningCard";
 
 
 export default function CartPage(){
     let {productList} = useContext(ProductContext)
     let {cartList}  = useContext(CartContext)
+    let {fetchCart} = useContext(CartContext)
     let totalprice = 0
     let cards = []
-
-    for (let i=0  ; i<cartList.length;i++){
-        for (let j=0  ; j<productList.length;j++){
-            if(productList[j].id===cartList[i].product){
-                let tp = parseFloat(cartList[i].count)*parseFloat(productList[j].price)
-                totalprice+=tp
-                cards.push(
-                    <CartListCard
-                    to={'/product/'+productList[j].id+"/"}
-                    name ={productList[j].name}
-                    image={"http://127.0.0.1:8000"+productList[j].image}
-                    price = {parseFloat(productList[j].price)}
-                    quantity = {cartList[i].count}
-                    increment = {function(){
-                        increment(productList[j].id)
-                    }}
-                    decrement = {function(){
-                        decrement(productList[j].id)
-                    }}
-                    totalprice = {tp}
-                    />
-                )
+    fetchCart()
+    if(cartList.length>0){
+        for (let i=0  ; i<cartList.length;i++){
+            for (let j=0  ; j<productList.length;j++){
+                if(productList[j].id===cartList[i].product){
+                    let tp = parseFloat(cartList[i].count)*parseFloat(productList[j].price)
+                    totalprice+=tp
+                    cards.push(
+                        <CartListCard
+                        to={'/product/'+productList[j].id+"/"}
+                        name ={productList[j].name}
+                        image={"http://127.0.0.1:8000"+productList[j].image}
+                        price = {parseFloat(productList[j].price)}
+                        quantity = {cartList[i].count}
+                        increment = {function(){
+                            increment(productList[j].id)
+                        }}
+                        decrement = {function(){
+                            decrement(productList[j].id)
+                        }}
+                        totalprice = {tp}
+                        />
+                    )
+                }
             }
         }
+    }
+    else {
+        cards.push(
+            <Warningcard message="🛒 Cart is Empty"/>
+        )
     }
     return(
         <main role="main">

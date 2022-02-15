@@ -10,7 +10,7 @@ export default function CartListCard(props){
         width:"auto", display: "block", 
         marginLeft: "auto", 
         marginRight: "auto", 
-        marginTop:"10px"
+        marginTop:"20px"
     }
     return(
         <div className="col-md-4">
@@ -19,13 +19,13 @@ export default function CartListCard(props){
                     <img className="card-img-top" src={props.image} style={imagestyle} />
                 </div>
                 <div className="card-body">
-                    <p className="card-text">{props.name}</p>
+                    <h4 className="card-text">{props.name}</h4>
                     <h5 style={{color:"green"}}>{props.price+" INR"}</h5>
                     <div className = "count">
                         {"quantity  : "+props.quantity} 
-                        <div className="btn-group">
-                            <button onClick={props.increment} type="button" className="btn-small">+</button>
-                            <button onClick={props.decrement} type="button" className="btn-small  ">--</button>
+                        <div className="btn-group"  style={{marginLeft:"5px"}}>
+                            <button onClick={props.increment} type="button" className="btn-small">⬆️</button>
+                            <button onClick={props.decrement} type="button" className="btn-small">⬇️</button>
                         </div>
                     </div>
                     <div style={{color:"grey"}}>{"Total : "+props.totalprice+" INR"}</div>

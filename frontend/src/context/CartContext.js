@@ -34,14 +34,10 @@ export  const CartProvider = ({children}) => {
         }
     }
 
-    useEffect(()=>{
-        fetchCart() 
-    })
-
     let contextData ={
         cartList:cartList,
-        fetchCart:fetchCart,
         setIsFetched:setIsFetched,
+        fetchCart:fetchCart
     }
 
 

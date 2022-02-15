@@ -14,6 +14,7 @@ import Product from "./pages/Productdetail";
 import { ProductProvider } from "./context/ProductContext";
 import CartPage from "./pages/CartPage";
 import { CartProvider } from "./context/CartContext";
+import ProfilePage from "./pages/ProfilePage";
 
 
 class Site extends React.Component{
@@ -49,8 +50,15 @@ class Site extends React.Component{
                   </ProductProvider>
                 </CartProvider>
               }/>
+              <Route exact path='/profile' element={
+                <PrivateRoute>
+                  <Header/>
+                    <ProfilePage/>
+                  <Footer/>
+                </PrivateRoute>
+              }/>
               <Route exact path='/login' element={
-                  <LoginPage/>
+                <LoginPage/>
               }/>
             </Routes>
           </AuthProvider>

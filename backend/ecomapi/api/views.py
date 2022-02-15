@@ -64,7 +64,7 @@ def apiOverview(request):
 @permission_classes([IsAuthenticated])
 def customerDetail(request):
     user = request.user
-    customer = user.customer_set.all()
+    customer = Customer.objects.get(user=user)
     serialiser = CustomerSerializer(customer, many=False)
     return Response(serialiser.data)
     
