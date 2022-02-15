@@ -4,34 +4,40 @@ import CartListCard from "../components/cartCard";
 import { useContext } from "react";
 import ProductContext from "../context/ProductContext";
 import CartContext from "../context/CartContext";
-import { useState } from "react";
+import { Navigate } from 'react-router';
+import {increment, decrement} from '../utils/functions'
+
 
 export default function CartPage(){
     let {productList} = useContext(ProductContext)
     let {cartList}  = useContext(CartContext)
     let totalprice = 0
     let cards = []
-    let rooturl ="http://127.0.0.1:8000"
-    console.log(cartList.length)
 
     for (let i=0  ; i<cartList.length;i++){
         for (let j=0  ; j<productList.length;j++){
             if(productList[j].id===cartList[i].product){
-                totalprice+=parseFloat(productList[j].price)
+                let tp = parseFloat(cartList[i].count)*parseFloat(productList[j].price)
+                totalprice+=tp
                 cards.push(
                     <CartListCard
                     to={'/product/'+productList[j].id+"/"}
                     name ={productList[j].name}
-                    image={rooturl+productList[j].image}
+                    image={"http://127.0.0.1:8000"+productList[j].image}
                     price = {parseFloat(productList[j].price)}
                     quantity = {cartList[i].count}
-                    totalprice = {parseFloat(cartList[i].count)*parseFloat(productList[j].price)}
+                    increment = {function(){
+                        increment(productList[j].id)
+                    }}
+                    decrement = {function(){
+                        decrement(productList[j].id)
+                    }}
+                    totalprice = {tp}
                     />
                 )
             }
         }
     }
-    console.log(cards)
     return(
         <main role="main">
             <div className="album py-5 bg-light">

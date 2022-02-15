@@ -13,7 +13,6 @@ export  const ProductProvider = ({children}) => {
     let [productList,setProductList] = useState([])
     let [isFetched,setIsFetched]= useState(true)
 
-
     let fetchProducts=()=>{
         let data ;
         axios.get(rooturl+'/api/product-list/')
@@ -34,10 +33,6 @@ export  const ProductProvider = ({children}) => {
         if(isFetched){
             fetchProducts()
         }
-        let interval = setInterval(() => {
-            fetchProducts()
-        },30000)
-        return ()=>clearInterval(interval)
     })
 
     let contextData ={

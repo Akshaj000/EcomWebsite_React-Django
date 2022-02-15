@@ -1,3 +1,4 @@
+from itertools import count
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -41,8 +42,8 @@ def apiOverview(request):
 
             'Cart List' : '/cart-list/<str:customerid>/',
             'Cart Detail' : '/cart-detail/<str:cartid>/',
-            'Add to cart'  : '/cart-add/<str:customerid>/<str:productid>/',
-            'Remove from cart' : '/cart-remove/<str:customerid>/<str:productid>/',
+            'Add to cart'  : '/cart-add/<str:productid>/',
+            'Remove from cart' : '/cart-remove/<str:productid>/',
             'Update cart' : '/cart-update/<str:customerid>/<str:productid>/',
 
             'Order List':'/order-list/<str:customerid>/',
@@ -180,7 +181,7 @@ def cartDetail(request,cartid):
     return Response(serialiser.data)
         
     
-@api_view(['POST','GET'])
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def addCart(request,productid):
     user = request.user
@@ -191,11 +192,12 @@ def addCart(request,productid):
         cart.save()
         return Response("count incremented!")
     except:
-        serialiser = CartSerializer(data=request.data)
-        serialiser.customer = request.user
-        if serialiser.is_valid():
-            serialiser.save(customer=user)
-        return Response(serialiser.data)
+        product = Product.objects.get(id=productid)
+        Cart.objects.create(product=product, user=user,count=1)
+
+
+        
+        
         
     
 @api_view(['DELETE','GET'])
@@ -203,14 +205,13 @@ def addCart(request,productid):
 def removeCart(request,productid):
     try:
         product = Product.objects.get(id=productid)
-        cart = Cart.objects.get(product=product,user = request.user)
-        if cart.count == 0:
+        cart = Cart.objects.get(product=product,user = request.user)  
+        cart.count-=1
+        if (cart.count==0):
             cart.delete()
-            return Response("Cart successfully deleted!")
         else:
-            cart.count-=1
             cart.save()
-            return Response("count decremented!")
+        return Response("count decremented!")
     except:
         return Response("Cart doesnt exist")
         

@@ -2,6 +2,7 @@ import React from "react";
 import Card from "../components/card";
 import { useContext } from "react";
 import ProductContext from "../context/ProductContext";
+import { increment } from "../utils/functions";
 
 const Homepage=()=>{
 
@@ -18,6 +19,7 @@ const Homepage=()=>{
                             imageurl={"http://localhost:8000"+productlist.image} 
                             name={productlist.name} 
                             price={productlist.price}
+                            addtocart  =  {()=>increment(productlist.id)}
                             />
                         ))}
                     </div>

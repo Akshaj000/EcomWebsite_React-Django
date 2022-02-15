@@ -14,7 +14,6 @@ export  const CartProvider = ({children}) => {
     let [cartList,setCartList] = useState([])
     let [isFetched,setIsFetched]= useState(true)
 
-
     let fetchCart=()=>{
         let Token = JSON.parse(localStorage.getItem('authToken')).access
         let data ;
@@ -35,19 +34,14 @@ export  const CartProvider = ({children}) => {
         }
     }
 
-
     useEffect(()=>{
-        if(isFetched){
-            fetchCart()
-        }
-        let interval = setInterval(() => {
-            fetchCart()
-        },10000)
-        return ()=>clearInterval(interval)
+        fetchCart() 
     })
 
     let contextData ={
         cartList:cartList,
+        fetchCart:fetchCart,
+        setIsFetched:setIsFetched,
     }
 
 

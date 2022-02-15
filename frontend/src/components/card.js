@@ -27,7 +27,7 @@ export default function Card(props){
                     <div className="d-flex justify-content-between align-items-center">
                         <div className="btn-group">
                             <Link to={props.view}><button  type="button" className="btn btn-sm btn-outline-secondary">View</button></Link>
-                            <button onClick={props.addtocart} type="button" className="btn btn-sm btn-outline-info updatecart">Add to cart</button>
+                            <Link to="/cart"><button onClick={props.addtocart} type="button" className="btn btn-sm btn-outline-info updatecart">Add to cart</button></Link>
                         </div>
                     </div>
                 </div>

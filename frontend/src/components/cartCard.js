@@ -24,8 +24,8 @@ export default function CartListCard(props){
                     <div className = "count">
                         {"quantity  : "+props.quantity} 
                         <div className="btn-group">
-                            <a href=""><button type="button" className="btn-small">+</button></a>
-                            <a href=""><button type="button" className="btn-small  ">--</button></a>
+                            <button onClick={props.increment} type="button" className="btn-small">+</button>
+                            <button onClick={props.decrement} type="button" className="btn-small  ">--</button>
                         </div>
                     </div>
                     <div style={{color:"grey"}}>{"Total : "+props.totalprice+" INR"}</div>
