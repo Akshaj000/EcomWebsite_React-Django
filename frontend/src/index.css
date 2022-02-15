@@ -174,3 +174,8 @@ label {
     padding: 30px;
     background-color: wheat;
 }
+
+.scrollable {
+    height: 100px;
+    overflow: visible;
+}

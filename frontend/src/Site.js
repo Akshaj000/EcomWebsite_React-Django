@@ -13,6 +13,7 @@ import PrivateRoute from "./utils/PrivateRoute"
 import Product from "./pages/Productdetail";
 import { ProductProvider } from "./context/ProductContext";
 import CartPage from "./pages/CartPage";
+import { CartProvider } from "./context/CartContext";
 
 
 class Site extends React.Component{
@@ -21,36 +22,38 @@ class Site extends React.Component{
 
     return (
       <BrowserRouter>
-        <Routes>
-            <Route exact path='/' element={
-              <ProductProvider>
-                  <Header/>
-                  <Homepage/>
-                  <Footer/>
-              </ProductProvider>
-            }/>
-            <Route exact path='/product/:id' element={
-              <> 
-              <Header/>
-                  <Product/>
-                <Footer/>
-              </> 
-            }/>
-        </Routes>
         <AuthProvider>
           <Routes>
-            <Route exact path='/cart' element={
-                <PrivateRoute>
-                  <Header/>
-                    <CartPage/>
+              <Route exact path='/' element={
+                <ProductProvider>
+                    <Header/>
+                    <Homepage/>
+                    <Footer/>
+                </ProductProvider>
+              }/>
+              <Route exact path='/product/:id' element={
+                <> 
+                <Header/>
+                    <Product/>
                   <Footer/>
-                </PrivateRoute>          
-            }/>
-            <Route exact path='/login' element={
-                <LoginPage/>
-            }/>
-          </Routes>
-        </AuthProvider>
+                </> 
+              }/>
+              <Route exact path='/cart' element={
+                <CartProvider>
+                  <ProductProvider>
+                    <PrivateRoute>
+                      <Header/>
+                        <CartPage/>
+                      <Footer/>
+                    </PrivateRoute>
+                  </ProductProvider>
+                </CartProvider>
+              }/>
+              <Route exact path='/login' element={
+                  <LoginPage/>
+              }/>
+            </Routes>
+          </AuthProvider>
       </BrowserRouter>
     );
   }

@@ -1,7 +1,7 @@
-from contextlib import nullcontext
-from statistics import mode
+
+from math import prod
+from readline import insert_text
 from django.contrib.auth.models import User
-from unicodedata import category
 from django.db import models
 from django.conf import settings
 from decimal import Decimal
@@ -44,7 +44,6 @@ class Product(models.Model):
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
-    name = models.CharField(max_length=200, null=True,unique=True)
     product = models.ForeignKey(Product, null=True , on_delete= models.SET_NULL)
     date_added = models.DateTimeField(auto_now_add=True, null=True)
     count  = models.IntegerField()
@@ -52,10 +51,9 @@ class Cart(models.Model):
     def totalprice(self):
         return self.product.price*self.count
 
-
     def __str__(self):
         try:
-            return str(self.product.name)+"_"+str(self.customer.name)
+            return str(self.product.name)
         except:
             return "Unknown"
     

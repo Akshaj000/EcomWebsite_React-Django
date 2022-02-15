@@ -9,14 +9,11 @@ export default function Product(){
     const rooturl = "http://localhost:8000"
     const [product, setProduct] = React.useState({ product: ''});
     
-    let data = "" ;
+    let data;
     axios.get(rooturl+'/api/product-detail/'+id+"/")
     .then(res => {
         data = res.data;
         setProduct({product:data})
-    })
-    .catch(err => {
-        console.log(err)
     })
 
     return(

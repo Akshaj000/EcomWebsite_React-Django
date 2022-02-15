@@ -3,11 +3,12 @@ import {Link} from "react-router-dom";
 
 export default function Card(props){
 
-    const imagestyle = {
+    const imagestyle ={
+        "object-fit":"contain",
         maxHeight:"200px", 
-        maxwidth:"300px", 
-        width:"auto", 
-        display: "block", 
+        overflow:"hidden", 
+        maxWidth:"300px",
+        width:"auto", display: "block", 
         marginLeft: "auto", 
         marginRight: "auto", 
         marginTop:"10px"
@@ -21,7 +22,7 @@ export default function Card(props){
                 </div>
                 <div className="card-body">
                     <p className="card-text">{props.name}</p>
-                    <h5>{props.price+ " INR"}</h5>
+                    <h4 style={{color:"green"}}>{props.price+ " INR"}</h4>
                     <br/>
                     <div className="d-flex justify-content-between align-items-center">
                         <div className="btn-group">
