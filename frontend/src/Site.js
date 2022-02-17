@@ -15,6 +15,8 @@ import { ProductProvider } from "./context/ProductContext";
 import CartPage from "./pages/CartPage";
 import { CartProvider } from "./context/CartContext";
 import ProfilePage from "./pages/ProfilePage";
+import SignupPage from "./pages/SignupPage";
+import ChangePasscodeForm from "./pages/ChangePasswordPage";
 
 
 class Site extends React.Component{
@@ -28,7 +30,7 @@ class Site extends React.Component{
               <Route exact path='/' element={
                 <ProductProvider>
                     <Header/>
-                    <Homepage/>
+                      <Homepage/>
                     <Footer/>
                 </ProductProvider>
               }/>
@@ -60,6 +62,13 @@ class Site extends React.Component{
               <Route exact path='/login' element={
                 <LoginPage/>
               }/>
+              <Route exact path='/signup' element={
+                <SignupPage/>
+              }/>
+              <Route exact path='/changepassword' element={
+                <ChangePasscodeForm/>
+              }/>
+
             </Routes>
           </AuthProvider>
       </BrowserRouter>

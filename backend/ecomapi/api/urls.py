@@ -4,6 +4,7 @@ from .views import MyTokenObtainPairView
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
+from .views import RegisterApi, ChangePasswordView
 
 urlpatterns  = [
     path('', views.apiOverview,name="api-overview"),
@@ -34,4 +35,6 @@ urlpatterns  = [
     path('order-update/<int:orderid>/',views.updateOrder,name="order-update"),
     path('token/',MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('register/', RegisterApi.as_view(),name="register"),
+    path('change-password/',ChangePasswordView.as_view(),name="changepassword")
 ]

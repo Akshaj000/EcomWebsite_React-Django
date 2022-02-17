@@ -6,7 +6,9 @@ import AuthContext from "../context/AuthContext";
 export default function Header(){
 
     let {logoutUser}  = useContext(AuthContext)
-
+    let {isSuperUser} = useContext(AuthContext)
+    let {user} = useContext(AuthContext)
+    
     const dropdownbutton = (
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
@@ -20,9 +22,8 @@ export default function Header(){
         </form>
     )
 
-
     return(
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav  className="navbar navbar-expand-lg navbar-dark bg-dark">
             <Link className="navbar-brand" to="/">ShoppingWebsite</Link>
             {dropdownbutton}
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -37,16 +38,27 @@ export default function Header(){
                         Settings
                     </a>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {user?
+                            <>
                             <Dropdownarea href="/profile" name="Profile"/>
-                            <Dropdownarea href="" name="Change password"/>
-                            <div className="dropdown-divider"></div>
-                            <Dropdownarea href="" name="Orders"/>
-                            <Dropdownarea href="" name="Add Product"/>
-                            <Dropdownarea href="" name="Add Category"/>
-                            <div className="dropdown-divider"></div>
-                            <Dropdownarea onClick={()=>logoutUser()} href="/login" name="Logout"/>
+                                <Dropdownarea href="" name="Orders"/>
+                                <div className="dropdown-divider"></div>
+                                {isSuperUser?  
+                                <>
+                                <Dropdownarea href="" name="Add Product"/>
+                                <Dropdownarea href="" name="Add Category"/>
+                                <div className="dropdown-divider"></div>
+                                </>
+                                : ""
+                                }
+                                <Dropdownarea href="/changepassword" name="Change password"/>
+                                <Dropdownarea onClick={()=>logoutUser()} href="/login" name="Logout"/>
+                            </>:
+                            <>
                             <Dropdownarea href="/login" name="Login"/>
-                            <Dropdownarea href="" name="Signup"/>
+                            <Dropdownarea href="/signup" name="Signup"/>
+                            </>
+                             }
                         </div>
                     </li>
                 </ul>

@@ -9,7 +9,7 @@ const Homepage=()=>{
     let{productList} = useContext(ProductContext)
 
     return (
-        <main role="main" >
+        <main role="main">
             <div className="album py-5 bg-light ">
                 <div className="container">
                     <div className="row">

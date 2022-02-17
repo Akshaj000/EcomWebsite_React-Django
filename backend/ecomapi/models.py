@@ -12,18 +12,18 @@ from decimal import Decimal
 class Customer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     photo = models.ImageField(upload_to=settings.MEDIA_ROOT,blank=True)
-    name = models.CharField(max_length=200, null=True)
-    country = models.CharField(max_length=200, null=True)
-    state = models.CharField(max_length=200, null=True)
-    district = models.CharField(max_length=200, null=True)
-    address = models.CharField(max_length=350, null=True)
-    postalcode = models.CharField(max_length=100,null=True)
+    name = models.CharField(blank=True,max_length=200, null=True)
+    country = models.CharField(blank=True,max_length=200, null=True)
+    state = models.CharField(blank=True,max_length=200, null=True)
+    district = models.CharField(blank=True,max_length=200, null=True)
+    address = models.CharField(blank=True,max_length=350, null=True)
+    postalcode = models.CharField(blank=True,max_length=100,null=True)
     phone = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField(blank=True,null=True)
-    date_created = models.DateTimeField(auto_now_add=True, null=True) 
+    date_created = models.DateTimeField(blank=True,auto_now_add=True, null=True) 
     
     def __str__(self):
-        return self.name
+        return self.user.username
 
 class Category(models.Model):
     categoryname  = models.CharField(max_length=200,null=True,unique=True)
