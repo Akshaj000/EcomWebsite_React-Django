@@ -15,7 +15,28 @@ class CategorySerializer(ModelSerializer):
 class ProductSerializer(ModelSerializer):
     class Meta:
         model = Product
-        fields = ["id","name","description","image","category","price"]
+        fields = ["id","name","image","description","category","price"]
+
+        def save(self, *args, **kwargs):
+            if self.instance.image:
+                self.instance.image.delete()
+            return super().save(*args, **kwargs)
+
+class ProductNoImageSerializer(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ["id","name","description","category","price"]
+
+class ProductImageSerializer(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ["image"]
+
+        def save(self, *args, **kwargs):
+            if self.instance.image:
+                self.instance.image.delete()
+            return super().save(*args, **kwargs)
+
 
 class CartSerializer(ModelSerializer):
     class Meta:

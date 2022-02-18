@@ -56,26 +56,30 @@ export default function CategoryPage(){
     }
 
     return(
-        <div className="container card" style={{marginTop:"20px"}}>
-        <div style={{"padding":"27px"}}>
-            <h2 >Categories</h2>
-            <pre>Double click to delete,  Click to edit</pre>
+        <main>
+        <div className="container" style={{marginTop:"30px"}}>
+          <div className="card mb-4 box-shadow">
+            <div style={{"padding":"27px"}}>
+                <h2 >Categories</h2>
+                <pre>Double click to delete,  Click to edit</pre>
+            </div>
+            <ul className="row">
+                {categories? categories.map(category=>(
+                    <>
+                    <li id={"category"+category.id} onClick={()=>handleEdit(category.id)} className="card category">{category.categoryname}</li> 
+                        <input onDoubleClick={()=>handleDelete(category.id,category.categoryname)} onChange={()=>handleEdit(category.id)} id={"catinput"+category.id} className="categoryinput card category" type="text" name='category' required defaultValue={category.categoryname} />
+                        <input id={"submit"+category.id} onClick={()=>handleEditSubmit(category.id)} style={{display:"none"}} className="card addnewcategory"  type="submit" value="save"/>
+                        <input id={"delete"+category.id} onClick={()=>handleDeleteSubmit(category.id)} style={{display:"none","margin-color":"red"}} className="card deletecategory"  type="submit" value="delete"/>
+                    </>          
+                )):""}
+                <li onClick={()=>handleAdd()} id="categorynew" className="card addnewcategory">Add New Category</li>
+                <input  id="cataddinput" className="categoryinput card category" type="text" name='category' required/>
+                <input onClick={()=>handleAddSubmit()} id="addnewcat"  style={{display:"none"}} className="card addnewcategory"  type="submit" value="save"/>
+            </ul>
+            <br/>
+          </div>
         </div>
-        <ul className="row">
-            {categories? categories.map(category=>(
-                <>
-                  <li id={"category"+category.id} onClick={()=>handleEdit(category.id)} className="card category">{category.categoryname}</li> 
-                    <input onDoubleClick={()=>handleDelete(category.id,category.categoryname)} onChange={()=>handleEdit(category.id)} id={"catinput"+category.id} className="categoryinput card category" type="text" name='category' required defaultValue={category.categoryname} />
-                    <input id={"submit"+category.id} onClick={()=>handleEditSubmit(category.id)} style={{display:"none"}} className="card addnewcategory"  type="submit" value="save"/>
-                    <input id={"delete"+category.id} onClick={()=>handleDeleteSubmit(category.id)} style={{display:"none","margin-color":"red"}} className="card deletecategory"  type="submit" value="delete"/>
-                </>          
-            )):""}
-            <li onClick={()=>handleAdd()} id="categorynew" className="card addnewcategory">Add New Category</li>
-            <input  id="cataddinput" className="categoryinput card category" type="text" name='category' required/>
-            <input onClick={()=>handleAddSubmit()} id="addnewcat"  style={{display:"none"}} className="card addnewcategory"  type="submit" value="save"/>
-        </ul>
-        <br/>
-        </div>
+        </main>
     );
 
 }

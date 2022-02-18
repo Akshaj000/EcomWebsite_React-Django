@@ -34,36 +34,113 @@ export const ProductProvider = ({ children }) => {
 
     let editProduct = (e) => {
         e.preventDefault()
-        let name = e.target.name.value
-        let image = e.target.image.files[0].name
-        let description = e.target.description.value
-        let price = parseInt(e.target.price.value)
-        let categories = Array.from(e.target.category.options).filter(option => option.selected).map(option => parseInt(option.value));
         let token = JSON.parse(localStorage.getItem('authToken')).access
-        axios.post(rooturl + '/api/product-update/' + thisProduct + "/", {
-                name: name,
-                description: description,
-                image: image,
-                price: price,
-                category: categories
-            }, {
-                headers: {
+    
+        let data = new FormData();
+        data.append('image', e.target.image.files[0]);
+        fetch(rooturl+'/api/product-image-update/'+thisProduct+'/', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+          body: data
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
 
+        let name = e.target.name.value
+        let description = e.target.description.value
+        let price = e.target.price.value
+        let categories = Array.from(e.target.category.options).filter(option => option.selected).map(option => parseInt(option.value));
+        console.log(categories)
+        axios.post(rooturl + '/api/product-update/' + thisProduct + "/",{
+            name : name,
+            description : description,
+            price : price,
+            category : categories
+        }, 
+        {
+                headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
             .then(function(response) {
-                console.log(response)
+                fetchProducts()
+                document.getElementById("productDetails").style.display = "block";
+                document.getElementById("ProductImage").style.display = "block";
+                document.getElementById("ProductEditForm").style.display="none";
             })
             .catch(function(error) {
                 alert(error)
+        });
+    }
+
+    let addProduct=(e)=>{
+        e.preventDefault()
+        let token = JSON.parse(localStorage.getItem('authToken')).access
+        let name = e.target.name.value
+        let description = e.target.description.value
+        let price = e.target.price.value
+        let categories = Array.from(e.target.category.options).filter(option => option.selected).map(option => option.value);
+        let data = new FormData();
+        data.append('image', e.target.image.files[0]);
+        if (e.target.image.files[0]){
+            axios.post(rooturl+"/api/product-add/",{
+                name : name,
+                description : description,
+                price : price,
+                category : categories
+            },{
+                headers: {
+                Authorization: `Bearer ${token}`,
+                }
+            })
+            .then((response) => {
+                console.log(response)
+                let id = response.data.id
+                fetch(rooturl+'/api/product-image-update/'+id+'/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                      body: data
+                    }).catch((error) => {
+                        alert("Failed adding image")
+                        console.error('Error:', error);
+                    }).then(response => {
+                        fetchProducts()
+                        navigate("/")
+                    })
+            }).catch((error) => {
+                console.log(error)
             });
+        }
+        else{
+            alert("please add image")
+        }
+        
+        
+
+    }
+
+
+    let deleteProduct=(id)=>{
+        let token = JSON.parse(localStorage.getItem('authToken')).access
+        axios.delete(rooturl+'/api/product-delete/'+id+"/",
+        {headers:{
+            Authorization  :  `Bearer ${token}`
+        }})
+        .then(res => {
+            fetchProducts()
+            navigate("/")
+        })
     }
 
 
     useEffect(() => {
         if (isFetched) {
             fetchProducts()
+            console.log(productList)
         }
     })
 
@@ -71,6 +148,8 @@ export const ProductProvider = ({ children }) => {
         productList: productList,
         editProduct: editProduct,
         setThisProduct: setThisProduct,
+        deleteProduct:deleteProduct,
+        addProduct:addProduct,
     }
 
 

@@ -19,7 +19,7 @@ export default function CartListCard(props){
                     <img className="card-img-top" src={props.image} style={imagestyle} />
                 </div>
                 <div className="card-body">
-                    <h4 className="card-text">{props.name}</h4>
+                    <p className="card-text">{props.name}</p>
                     <h5 style={{color:"green"}}>{props.price+" INR"}</h5>
                     <div className = "count">
                         {"quantity  : "+props.quantity} 

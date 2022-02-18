@@ -19,6 +19,7 @@ import SignupPage from "./pages/SignupPage";
 import ChangePasscodeForm from "./pages/ChangePasswordPage";
 import { CategoryProvider } from "./context/CategoryContext";
 import CategoryPage from "./pages/CategoryPage";
+import AddProductPage from "./pages/AddProductPage";
 
 
 class Site extends React.Component{
@@ -41,6 +42,15 @@ class Site extends React.Component{
                 <CategoryProvider>
                   <Header/>
                     <Product/>
+                  <Footer/>
+                </CategoryProvider>
+                </ProductProvider>
+              }/>
+              <Route exact path='/newproduct' element={
+                <ProductProvider>
+                <CategoryProvider>
+                  <Header/>
+                    <AddProductPage/>
                   <Footer/>
                 </CategoryProvider>
                 </ProductProvider>

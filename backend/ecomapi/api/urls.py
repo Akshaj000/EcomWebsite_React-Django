@@ -15,13 +15,14 @@ urlpatterns  = [
 
     path('product-list/',views.productList,name="product-list"),
     path('product-detail/<str:productid>/',views.productDetail,name="product-detail"),
-    path('product-create/',views.createProduct,name="product-create"),
+    path('product-add/',views.createProduct,name="product-create"),
     path('product-update/<str:productid>/',views.updateProduct,name="product-update"),
+    path('product-image-update/<str:productid>/',views.ProductEditImageView.as_view(),name="product-image-update"),
     path('product-delete/<str:productid>/',views.deleteProduct,name="product-delete"),
 
     path('category-list/',views.categoryList,name="category-list"),
     path('category-add/',views.addCategory,name="category-add"),
-    path('category-update/<str:categoryid>/',views.updateCategory,name="category-update"),
+    path('category-update/<str:categoryid>',views.updateCategory,name="category-update"),
     path('category-remove/<str:categoryid>/',views.removeCategory,name="category-remove"),
 
     path('cart-list/',views.cartList,name="cart-list"),

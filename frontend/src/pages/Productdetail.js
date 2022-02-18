@@ -12,6 +12,7 @@ import { rooturl } from "../utils/functions";
 export default function Product(){
 
     let {editProduct} = useContext(ProductContext)
+    let {deleteProduct} = useContext(ProductContext)
     let {setThisProduct} = useContext(ProductContext)
     let {isSuperUser} = useContext(AuthContext)
     const { id } = useParams();
@@ -25,13 +26,26 @@ export default function Product(){
     })
 
     let handleEdit=()=>{
-        setThisProduct(1)
+        setThisProduct(id)
         document.getElementById("productDetails").style.display = "none";
         document.getElementById("ProductImage").style.display = "none";
         document.getElementById("ProductEditForm").style.display="block";
         for(let i=0;i<product.product.category.length;i++){
            document.getElementById(product.product.category[i]).selected = "true";
         }
+    }
+
+    let handleDelete=()=>{
+        document.getElementById("DeleteProductButton").style.display = "none";
+        document.getElementById("DeleteProductConfirmButton").style.display = "block";
+        document.getElementById("DeleteProductCancelButton").style.display = "block";
+    }
+
+    let handleCancel=()=>{
+        document.getElementById("DeleteProductButton").style.display = "block";
+        document.getElementById("DeleteProductConfirmButton").style.display = "none";
+        document.getElementById("DeleteProductCancelButton").style.display = "none";
+
     }
 
     const imagestyle={
@@ -57,15 +71,21 @@ export default function Product(){
                         <h2 className="card-text" style={{color:"green"}}>{product.product.price +" INR"}</h2>
                         <br/>
                         <p className ="card-text">{product.product.description}</p>
-                        <div className="d-flex justify-content-between align-items-center">
-                            <div className="btn-group">
-                                <Link to="/cart"><button onClickCapture={()=>increment(product.product.id)} type="button" style={{margin:"1px"}} className="btn btn-sm btn-outline-info">ADD TO CART</button></Link>
+                        <div className="d-flex justify-content-between align-items-center"></div>
+                            <div>
                             {isSuperUser?
                                 <>
+                                <div class="btn-group">
+                                 <Link to="/cart"><button onClickCapture={()=>increment(product.product.id)} type="button" style={{margin:"1px"}} className="btn btn-sm btn-outline-info">ADD TO CART</button></Link>
                                  <button onClick={()=>handleEdit()} type="button" style={{margin:"1px"}} className="btn btn-sm btn-outline-warning">EDIT</button>
-                                 <button type="button" onclick="" style={{margin:"1px"}} className="btn btn-sm btn-outline-danger">DELETE</button>
-                                </>:""}
-                            </div>
+                                </div>
+                                 <button id="DeleteProductButton" onClick={()=>handleDelete()} type="button" onclick="" style={{float:"right",margin:"1px"}} className="btn btn-sm btn-outline-danger">DELETE</button>
+                                 <button id="DeleteProductCancelButton" onClick={()=>handleCancel()} type="button" onclick="" style={{float:"right",margin:"1px",display:"none"}} className="btn btn-sm btn-warning">CANCEL</button>
+                                 <button id="DeleteProductConfirmButton" onClick={()=>deleteProduct(product.product.id)} type="button" onclick="" style={{float:"right",margin:"1px",display:"none"}} className="btn btn-sm btn-danger">CONFIRM DELETE !</button>
+                                </>:
+                                 <Link to="/cart"><button onClickCapture={()=>increment(product.product.id)} type="button" style={{margin:"1px"}} className="btn btn-sm btn-outline-info">ADD TO CART</button></Link>
+                                }
+                           
                         </div>
                     </div>
                     {isSuperUser?

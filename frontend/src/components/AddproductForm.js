@@ -28,7 +28,7 @@ export default function ProductForm(props){
                 type="file"
                 id="ProductImageSubmit"
                 name="image"
-                accept="image/*" 
+                accept="image/png image/jpg image/jpeg" 
                 onChange={handleImageChange}
                 className="productformfield" 
                 defaultValue={props.image}/>

@@ -4,6 +4,7 @@ import { useContext } from "react";
 import ProductContext from "../context/ProductContext";
 import { increment } from "../utils/functions";
 import { rooturl } from "../utils/functions";
+import Warningcard from "../components/WarningCard";
 
 const Homepage=()=>{
 
@@ -13,7 +14,7 @@ const Homepage=()=>{
             <div className="album py-5 bg-light ">
                 <div className="container">
                     <div className="row">
-                        {productList.map(productlist=>(
+                        {productList.length>0 ? productList.map(productlist=>(
                             <Card 
                             view={"product/"+productlist.id+"/"} 
                             imageurl={rooturl+productlist.image} 
@@ -21,7 +22,7 @@ const Homepage=()=>{
                             price={productlist.price}
                             addtocart  =  {()=>increment(productlist.id)}
                             />
-                        ))}
+                        )):<Warningcard message={<img src="https://i.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.webp" width={"100px"}/>}/>}
                     </div>
                 </div>
             </div>

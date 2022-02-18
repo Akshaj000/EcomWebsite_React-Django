@@ -190,3 +190,7 @@ label {
     display: none;
     padding: 5.61px 6px;
 }
+
+.cartcard {
+    height: "100px";
+}

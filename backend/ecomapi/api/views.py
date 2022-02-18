@@ -1,6 +1,8 @@
 from itertools import count
 from unicodedata import category
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -18,6 +20,9 @@ from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.generics import CreateAPIView
 from django.contrib.auth import get_user_model
+from rest_framework.decorators import api_view
+from rest_framework.decorators import parser_classes
+from rest_framework.parsers import JSONParser, MultiPartParser
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -164,7 +169,7 @@ def productDetail(request,productid):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def createProduct(request):
-    serialiser = ProductSerializer(data=request.data)
+    serialiser = ProductNoImageSerializer(data=request.data)
     if serialiser.is_valid():
         serialiser.save()
     return Response(serialiser.data)
@@ -172,9 +177,11 @@ def createProduct(request):
         
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def updateProduct(request,productid):    
+@parser_classes([JSONParser])
+@parser_classes([MultiPartParser])
+def updateProduct(request,productid,*args, **kwargs):    
     product = Product.objects.get(id=productid)
-    serialiser = ProductSerializer(instance=product,data=request.data)
+    serialiser = ProductNoImageSerializer(instance=product,data=request.data)
     if serialiser.is_valid():
         serialiser.save()
         return Response("Serialized")
@@ -184,11 +191,23 @@ def updateProduct(request,productid):
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def deleteProduct(request,productid):
-    product = ProductSerializer.objects.get(id=productid)
+    product = Product.objects.get(id=productid)
     product.delete()
     return Response("Product successfully deleted!")
         
-    
+
+class ProductEditImageView(APIView):
+    parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request,productid,format=None):
+        product = Product.objects.get(id=productid)
+        serializer = ProductImageSerializer(instance=product,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #Category--------------------------------------------------------------------
 
