@@ -21,6 +21,7 @@ urlpatterns  = [
 
     path('category-list/',views.categoryList,name="category-list"),
     path('category-add/',views.addCategory,name="category-add"),
+    path('category-update/<str:categoryid>/',views.updateCategory,name="category-update"),
     path('category-remove/<str:categoryid>/',views.removeCategory,name="category-remove"),
 
     path('cart-list/',views.cartList,name="cart-list"),

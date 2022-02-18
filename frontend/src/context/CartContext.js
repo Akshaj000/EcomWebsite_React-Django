@@ -4,13 +4,13 @@ useState,
 useEffect,
 useContext } from "react";
 import axios from 'axios';
+import { rooturl } from "../utils/functions";
 
 const CartContext = createContext()
 export default CartContext;
 
 export  const CartProvider = ({children}) => {
 
-    let rooturl = "http://localhost:8000"
     let [cartList,setCartList] = useState([])
     let [isFetched,setIsFetched]= useState(true)
 
@@ -33,6 +33,8 @@ export  const CartProvider = ({children}) => {
             setIsFetched(false)
         }
     }
+
+    
 
     let contextData ={
         cartList:cartList,

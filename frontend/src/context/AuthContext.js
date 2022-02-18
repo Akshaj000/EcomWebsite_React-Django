@@ -78,7 +78,6 @@ export  const AuthProvider = ({children}) => {
                 navigate("/login")
             })
             .catch(err => {
-                alert(err)
                 console.log(err)
             })
         }

@@ -113,35 +113,25 @@ code {
     font-family: 'Courier New', Courier, monospace;
 }
 
-#id_description,
-#id_name,
-#id_category,
-#id_price,
-#id_image,
-#id_district,
-#id_photo,
-#id_postalcode,
-#id_address,
-#id_country,
-#id_state,
-#id_phone,
-#id_actname,
-#id_categoryname,
-#id_email {
-    border-radius: 3px;
-    border: 1px groove #343a40;
-    width: 100%;
-    padding: 12px 15px;
-    margin: 5px 0;
-    box-sizing: border-box;
-    font-size: medium;
-    background-color: white;
-}
-
 .formfield {
     border-radius: 3px;
     border: 2px groove white;
     width: 50%;
+    padding: 5.61px 6px;
+}
+
+.productdescriptionfield {
+    border-radius: 3px;
+    border: 2px groove white;
+    height: 400px;
+    width: 100%;
+    padding: 5.61px 6px;
+}
+
+.productformfield {
+    border-radius: 3px;
+    border: 2px groove white;
+    width: 100%;
     padding: 5.61px 6px;
 }
 
@@ -150,16 +140,53 @@ label {
     font-family: 'Courier New', Courier, monospace;
 }
 
-#id_actname:hover,
-#id_country:hover,
-#id_district:hover,
-#id_postalcode:hover,
-#id_description:hover,
-#id_address:hover,
-#id_state:hover,
-#id_name:hover,
-#id_category :hover,
-#id_price:hover,
-#id_image:hover {
-    background-color: rgba(0, 0, 0, 0.061);
+.category:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.category {
+    margin: 4px;
+    padding: 5px;
+    color: #28a79c;
+    border-color: #28a79c;
+    cursor: pointer;
+}
+
+.addnewcategory {
+    margin: 4px;
+    padding: 5px;
+    border-color: #28a745;
+    color: #28a745;
+    cursor: pointer;
+}
+
+.addnewcategory:hover {
+    border-color: white;
+    color: white;
+    background-color: #28a745;
+    cursor: pointer;
+}
+
+.deletecategory {
+    margin: 4px;
+    padding: 5px;
+    border-color: #ff5404;
+    color: #ff5404;
+    cursor: pointer;
+}
+
+.deletecategory:hover {
+    border-color: white;
+    color: white;
+    background-color: #ff5404;
+    cursor: pointer;
+}
+
+.categoryinput {
+    border-radius: 3px;
+    border-color: #28a79c;
+    width: 13%;
+    display: none;
+    padding: 5.61px 6px;
 }

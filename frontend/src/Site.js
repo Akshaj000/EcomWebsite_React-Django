@@ -17,6 +17,8 @@ import { CartProvider } from "./context/CartContext";
 import ProfilePage from "./pages/ProfilePage";
 import SignupPage from "./pages/SignupPage";
 import ChangePasscodeForm from "./pages/ChangePasswordPage";
+import { CategoryProvider } from "./context/CategoryContext";
+import CategoryPage from "./pages/CategoryPage";
 
 
 class Site extends React.Component{
@@ -35,11 +37,13 @@ class Site extends React.Component{
                 </ProductProvider>
               }/>
               <Route exact path='/product/:id' element={
-                <> 
-                <Header/>
+                <ProductProvider>
+                <CategoryProvider>
+                  <Header/>
                     <Product/>
                   <Footer/>
-                </> 
+                </CategoryProvider>
+                </ProductProvider>
               }/>
               <Route exact path='/cart' element={
                 <CartProvider>
@@ -58,6 +62,15 @@ class Site extends React.Component{
                     <ProfilePage/>
                   <Footer/>
                 </PrivateRoute>
+              }/>
+              <Route exact path='/categories' element={
+                <CategoryProvider>
+                 <PrivateRoute>
+                    <Header/>
+                      <CategoryPage/>
+                    <Footer/>
+                  </PrivateRoute>
+                </CategoryProvider>
               }/>
               <Route exact path='/login' element={
                 <LoginPage/>

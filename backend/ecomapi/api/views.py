@@ -1,4 +1,5 @@
 from itertools import count
+from unicodedata import category
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -176,6 +177,7 @@ def updateProduct(request,productid):
     serialiser = ProductSerializer(instance=product,data=request.data)
     if serialiser.is_valid():
         serialiser.save()
+        return Response("Serialized")
     return Response(serialiser.data)
         
     
@@ -204,6 +206,16 @@ def addCategory(request):
     serialiser = CategorySerializer(data=request.data)
     if serialiser.is_valid():
         serialiser.save()
+    return Response(serialiser.data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def updateCategory(request,categoryid):    
+    category = Category.objects.get(id=categoryid)
+    serialiser = CategorySerializer(instance=category,data=request.data)
+    if serialiser.is_valid():
+        serialiser.save()
+        return Response("Serialized")
     return Response(serialiser.data)
         
     
