@@ -41,7 +41,7 @@ export default function Header(){
                             {user?
                             <>
                             <Dropdownarea href="/profile" name="Profile"/>
-                                <Dropdownarea href="" name="Orders"/>
+                                <Dropdownarea href="/orders" name="Orders"/>
                                 <div className="dropdown-divider"></div>
                                 {isSuperUser?  
                                 <>

@@ -20,6 +20,9 @@ import ChangePasscodeForm from "./pages/ChangePasswordPage";
 import { CategoryProvider } from "./context/CategoryContext";
 import CategoryPage from "./pages/CategoryPage";
 import AddProductPage from "./pages/AddProductPage";
+import Order from "./pages/OrderPage";
+
+
 
 
 class Site extends React.Component{
@@ -70,6 +73,13 @@ class Site extends React.Component{
                 <PrivateRoute>
                   <Header/>
                     <ProfilePage/>
+                  <Footer/>
+                </PrivateRoute>
+              }/>
+              <Route exact path='/orders' element={
+                <PrivateRoute>
+                  <Header/>
+                    <Order/>
                   <Footer/>
                 </PrivateRoute>
               }/>

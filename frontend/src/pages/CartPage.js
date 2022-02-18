@@ -1,21 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import CartListCard from "../components/cartCard";
-import { useContext } from "react";
+import { useContext} from "react";
 import ProductContext from "../context/ProductContext";
 import CartContext from "../context/CartContext";
-import { Navigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import {increment, decrement} from '../utils/functions'
 import Warningcard from "../components/WarningCard";
+import { Link } from "react-router-dom";
+import Googlepaybutton from "../components/googlepaycard";
 
 
 export default function CartPage(){
     let {productList} = useContext(ProductContext)
-    let {cartList}  = useContext(CartContext)
     let {fetchCart} = useContext(CartContext)
+    let [shouldfetch,setShouldfetch]=useState(true)
+    if(shouldfetch){
+        fetchCart()
+    }
+    let {cartList}  = useContext(CartContext)
     let totalprice = 0
     let cards = []
-    fetchCart()
+    
     if(cartList.length>0){
         for (let i=0  ; i<cartList.length;i++){
             for (let j=0  ; j<productList.length;j++){
@@ -35,7 +41,7 @@ export default function CartPage(){
                         decrement = {function(){
                             decrement(productList[j].id)
                         }}
-                        totalprice = {tp}
+                        totalprice = {tp.toFixed(2)}
                         />
                     )
                 }
@@ -47,6 +53,34 @@ export default function CartPage(){
             <Warningcard message="🛒 Cart is Empty"/>
         )
     }
+
+
+    let handleOnClick=()=>{
+        setShouldfetch(false)
+        var elements=document.getElementsByClassName("incrementbtn")
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].style.display = "none";
+        }
+        var elements=document.getElementsByClassName("decrementbtn")
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].style.display = "none";
+        }
+        document.getElementById("checkoutbutton").style.display="none"
+    }
+
+    let handleOnCancel=()=>{
+        setShouldfetch(true)
+        var elements=document.getElementsByClassName("incrementbtn")
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].style.display = "block";
+        }
+        var elements=document.getElementsByClassName("decrementbtn")
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].style.display = "block";
+        }
+        document.getElementById("checkoutbutton").style.display="block"
+    }
+
     return(
         <main role="main">
             <div className="album py-5 bg-light">
@@ -56,10 +90,17 @@ export default function CartPage(){
                     </div>
                     <div className="list-group-item d-flex justify-content-between">
                         <h4>Total price : </h4>
-                        <h3 style={{color:"green"}}><strong>{totalprice} INR</strong></h3>
+                        <h3 style={{color:"green"}}><strong>{totalprice.toFixed(2)} INR</strong></h3>
                     </div>
                     <div className="list-group-item d-flex justify-content-between">
-                        <a  href=""><button type="button" className="btn btn-lg btn-outline-success updatecart">CHECKOUT</button></a>
+                        {shouldfetch ?
+                        <button onClick={()=>handleOnClick()} id="checkoutbutton" type="button" className="btn btn-lg btn-outline-success updatecart">CHECKOUT</button>
+                        :
+                        <>
+                          <Googlepaybutton id="googlepaybutton" style={{display:"none"}} totalPrice={totalprice.toFixed(2)}/>
+                          <button onClick={()=>handleOnCancel()} id="cancelpaybutton" type="button" className="btn btn-lg btn-outline-secondary updatecart">cancel</button>
+                        </>
+                        }
                     </div>
                 </div>
             </div>

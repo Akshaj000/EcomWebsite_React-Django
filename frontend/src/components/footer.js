@@ -9,14 +9,14 @@ export default function Footer(){
         height: "100px",
     }
     return(
-        <div className="container">
+        <div className="">
             <footer style={footerstyle} className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
                 <p className="col-md-4 mb-0 text-muted">2022 Company, Inc</p>
                 <ul className="nav col-md-4 justify-content-end">
                     <Footeritem to="/" name="Home"/>
                     <Footeritem to="/cart" name="Cart"/>
                     <Footeritem to="/profile" name="Profile"/>
-                    <Footeritem to="" name="Orders"/>
+                    <Footeritem to="/orders" name="Orders"/>
                 </ul>
             </footer>
         </div>

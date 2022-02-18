@@ -43,7 +43,7 @@ export default function ProductForm(props){
         </p>
         <p>
           <p>Category :</p>
-          <select name="category" required className="productformfield" multiple>
+          <select name="category" required className="productformcategoryfield" multiple>
           {categories? categories.map(category=>(
             <Option selected="" id={category.id} name={category.categoryname}/>
           )):""}

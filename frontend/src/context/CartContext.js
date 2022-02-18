@@ -34,12 +34,14 @@ export  const CartProvider = ({children}) => {
         }
     }
 
+
     
 
     let contextData ={
         cartList:cartList,
         setIsFetched:setIsFetched,
-        fetchCart:fetchCart
+        fetchCart:fetchCart,
+        
     }
 
 

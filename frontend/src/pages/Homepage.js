@@ -11,8 +11,8 @@ const Homepage=()=>{
     let{productList} = useContext(ProductContext)
     return (
         <main role="main">
-            <div className="album py-5 bg-light ">
-                <div className="container">
+            <div className="album py-3 bg-light ">
+                <div style={{margin:"30px",padding:"auto"}}>
                     <div className="row">
                         {productList.length>0 ? productList.map(productlist=>(
                             <Card 
