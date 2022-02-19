@@ -46,6 +46,7 @@ export default function Googlepaybutton(props){
         onLoadPaymentData={paymentData=>{
             console.log('TODO: send order to server', paymentData.paymentMethodData);
         }}
+        onCancel={() => alert('Cancelled')}
     />
     )
 }

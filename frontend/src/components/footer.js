@@ -9,8 +9,8 @@ export default function Footer(){
         height: "100px",
     }
     return(
-        <div className="">
-            <footer style={footerstyle} className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <div className="" style={{marginLeft:"70px",marginRight:"70px"}}>
+            <footer style={footerstyle} className="d-flex flex-wrap justify-content-between align-items-center py-4 my-0 border-top">
                 <p className="col-md-4 mb-0 text-muted">2022 Company, Inc</p>
                 <ul className="nav col-md-4 justify-content-end">
                     <Footeritem to="/" name="Home"/>

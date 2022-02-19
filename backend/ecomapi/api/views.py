@@ -1,4 +1,4 @@
-from itertools import count
+from itertools import count, product
 from unicodedata import category
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -23,7 +23,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
 from rest_framework.parsers import JSONParser, MultiPartParser
-
+from django.db.models import*
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -209,6 +209,20 @@ class ProductEditImageView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+#Search---------
+
+@api_view(['GET'])
+def search(request):
+    q = request.GET['q']
+    productdist = []
+    products = Product.objects.filter(Q(name__contains=q)|Q(category__categoryname__contains=q))
+    for i in products:
+        if i not in productdist:
+            productdist.append(i)
+    serialiser = ProductSerializer(productdist,many=True)
+    return Response(serialiser.data)
+
+
 #Category--------------------------------------------------------------------
 
 @api_view(['GET'])
@@ -279,26 +293,26 @@ def addCart(request,productid):
     except:
         product = Product.objects.get(id=productid)
         Cart.objects.create(product=product, user=user,count=1)
-
-
-        
-        
         
     
 @api_view(['DELETE','GET'])
 @permission_classes([IsAuthenticated])
-def removeCart(request,productid):
-    try:
-        product = Product.objects.get(id=productid)
-        cart = Cart.objects.get(product=product,user = request.user)  
-        cart.count-=1
-        if (cart.count==0):
-            cart.delete()
-        else:
-            cart.save()
-        return Response("count decremented!")
-    except:
-        return Response("Cart doesnt exist")
+def removeCart(request,productid,instantremove=False):
+    product = Product.objects.get(id=productid)
+    cart = Cart.objects.get(product=product,user = request.user)  
+    if instantremove:
+        cart.delete()
+        return Response("Removed")
+    else:
+        try:
+            cart.count-=1
+            if (cart.count==0):
+                cart.delete()
+            else:
+                cart.save()
+            return Response("count decremented!")
+        except:
+            return Response("Cart doesnt exist")
         
     
 @api_view(['POST'])
@@ -356,4 +370,7 @@ def updateOrder(request,orderid):
     if serialiser.is_valid():
         serialiser.save()
     return Response(serialiser.data)
+
+
+
 

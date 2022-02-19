@@ -82,9 +82,8 @@ export default function CartPage(){
     }
 
     return(
-        <main role="main">
-            <div className="album py-5 bg-light">
-            <div className="container">
+        <main class="main" >
+            <div className="album py-5 bg-light" style={{marginLeft:"5%",marginRight:"5%"}}>
                     <div className="row">
                         {cards}
                     </div>
@@ -103,7 +102,6 @@ export default function CartPage(){
                         }
                     </div>
                 </div>
-            </div>
         </main>
     )
 }

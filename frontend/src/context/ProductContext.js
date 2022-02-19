@@ -16,7 +16,7 @@ export const ProductProvider = ({ children }) => {
     let [productList, setProductList] = useState([])
     let [isFetched, setIsFetched] = useState(true)
     let [thisProduct, setThisProduct] = useState([])
-
+    
     let fetchProducts = () => {
         let data;
         axios.get(rooturl + '/api/product-list/')
@@ -52,7 +52,6 @@ export const ProductProvider = ({ children }) => {
         let description = e.target.description.value
         let price = e.target.price.value
         let categories = Array.from(e.target.category.options).filter(option => option.selected).map(option => parseInt(option.value));
-        console.log(categories)
         axios.post(rooturl + '/api/product-update/' + thisProduct + "/",{
             name : name,
             description : description,
@@ -96,7 +95,6 @@ export const ProductProvider = ({ children }) => {
                 }
             })
             .then((response) => {
-                console.log(response)
                 let id = response.data.id
                 fetch(rooturl+'/api/product-image-update/'+id+'/', {
                     method: 'POST',
@@ -107,6 +105,7 @@ export const ProductProvider = ({ children }) => {
                     }).catch((error) => {
                         alert("Failed adding image")
                         console.error('Error:', error);
+                        navigate("/newproduct")
                     }).then(response => {
                         fetchProducts()
                         navigate("/")
@@ -121,6 +120,27 @@ export const ProductProvider = ({ children }) => {
         
         
 
+    }
+
+    let searchProduct=(query)=>{
+        query.preventDefault()
+        let data;
+        axios.get(rooturl + '/api/product-search/?q='+query.target.q.value)
+        .then(res => {
+            data = res.data;
+            if (data.length===0){
+              fetchProducts()
+              navigate("/")
+            }else{
+                console.log(data)
+                navigate("/")
+                setProductList(data)
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        
     }
 
 
@@ -140,7 +160,6 @@ export const ProductProvider = ({ children }) => {
     useEffect(() => {
         if (isFetched) {
             fetchProducts()
-            console.log(productList)
         }
     })
 
@@ -150,6 +169,7 @@ export const ProductProvider = ({ children }) => {
         setThisProduct: setThisProduct,
         deleteProduct:deleteProduct,
         addProduct:addProduct,
+        searchProduct:searchProduct
     }
 
 

@@ -44,7 +44,7 @@ class Product(models.Model):
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
-    product = models.ForeignKey(Product, null=True , on_delete= models.SET_NULL)
+    product = models.ForeignKey(Product, null=True , on_delete= models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True, null=True)
     count  = models.IntegerField()
     

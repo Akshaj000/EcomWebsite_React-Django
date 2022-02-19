@@ -6,13 +6,13 @@ import ProductContext from "../context/ProductContext";
 export default function AddProductPage(){
     let {addProduct} = useContext(ProductContext)
     return(
-        <div className="container">
-          <div className="container card" style={{"padding":"20px",marginTop:"30px"}}>
+      <main className="main">
+          <div className="card" style={{"padding":"2%",marginTop:"1%",marginRight:"3%",marginLeft:"3%"}}>
             <h3>ADD NEW PRODUCT</h3>
             <ProductForm
             onSubmit={addProduct}
             />
           </div>
-        </div>
+        </main>
     )
 }

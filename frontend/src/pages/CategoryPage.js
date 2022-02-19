@@ -56,9 +56,7 @@ export default function CategoryPage(){
     }
 
     return(
-        <main>
-        <div className="container" style={{marginTop:"30px"}}>
-          <div className="card mb-4 box-shadow">
+        <div className="card mb-4 box-shadow" style={{padding:"5px"}}>
             <div style={{"padding":"27px"}}>
                 <h2 >Categories</h2>
                 <pre>Double click to delete,  Click to edit</pre>
@@ -76,10 +74,7 @@ export default function CategoryPage(){
                 <input  id="cataddinput" className="categoryinput card category" type="text" name='category' required/>
                 <input onClick={()=>handleAddSubmit()} id="addnewcat"  style={{display:"none"}} className="card addnewcategory"  type="submit" value="save"/>
             </ul>
-            <br/>
-          </div>
         </div>
-        </main>
     );
 
 }

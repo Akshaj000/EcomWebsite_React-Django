@@ -21,6 +21,10 @@ import { CategoryProvider } from "./context/CategoryContext";
 import CategoryPage from "./pages/CategoryPage";
 import AddProductPage from "./pages/AddProductPage";
 import Order from "./pages/OrderPage";
+import { SearchProvider } from "./context/SearchContext";
+import Searchpage from "./pages/SearchPage";
+import { OrderProvider } from "./context/OrderContext";
+import Invoice from "./pages/Invoice";
 
 
 
@@ -32,6 +36,7 @@ class Site extends React.Component{
     return (
       <BrowserRouter>
         <AuthProvider>
+        <SearchProvider>
           <Routes>
               <Route exact path='/' element={
                 <ProductProvider>
@@ -39,6 +44,13 @@ class Site extends React.Component{
                       <Homepage/>
                     <Footer/>
                 </ProductProvider>
+              }/>
+              <Route exact path='/search' element={
+                <>
+                    <Header/>
+                      <Searchpage/>
+                    <Footer/>
+                </>
               }/>
               <Route exact path='/product/:id' element={
                 <ProductProvider>
@@ -50,6 +62,7 @@ class Site extends React.Component{
                 </ProductProvider>
               }/>
               <Route exact path='/newproduct' element={
+                <PrivateRoute>
                 <ProductProvider>
                 <CategoryProvider>
                   <Header/>
@@ -57,17 +70,18 @@ class Site extends React.Component{
                   <Footer/>
                 </CategoryProvider>
                 </ProductProvider>
+                </PrivateRoute>
               }/>
               <Route exact path='/cart' element={
+                <PrivateRoute>
                 <CartProvider>
                   <ProductProvider>
-                    <PrivateRoute>
                       <Header/>
                         <CartPage/>
                       <Footer/>
-                    </PrivateRoute>
                   </ProductProvider>
                 </CartProvider>
+                </PrivateRoute>
               }/>
               <Route exact path='/profile' element={
                 <PrivateRoute>
@@ -78,19 +92,34 @@ class Site extends React.Component{
               }/>
               <Route exact path='/orders' element={
                 <PrivateRoute>
+                <ProductProvider>
+                <OrderProvider>
                   <Header/>
                     <Order/>
                   <Footer/>
+                  </OrderProvider>
+                  </ProductProvider>
                 </PrivateRoute>
               }/>
+              <Route exact path='/invoice/:id' element={
+                <OrderProvider>
+                  <Header/>
+                    <Invoice/>
+                  <Footer/>
+                </OrderProvider>
+              }/>
               <Route exact path='/categories' element={
+                <PrivateRoute>
                 <CategoryProvider>
-                 <PrivateRoute>
                     <Header/>
+                    <main class="main">
+                    <div style={{marginTop:"2%",marginRight:"8%",marginLeft:"8%"}}>
                       <CategoryPage/>
+                    </div>
+                    </main>
                     <Footer/>
-                  </PrivateRoute>
                 </CategoryProvider>
+                </PrivateRoute>
               }/>
               <Route exact path='/login' element={
                 <LoginPage/>
@@ -103,6 +132,7 @@ class Site extends React.Component{
               }/>
 
             </Routes>
+            </SearchProvider>
           </AuthProvider>
       </BrowserRouter>
     );

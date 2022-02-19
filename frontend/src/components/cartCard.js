@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function CartListCard(props){
     const imagestyle ={
         "object-fit":"contain",
-        maxHeight:"200px", 
+        maxHeight:"150px", 
         overflow:"hidden", 
         maxWidth:"300px",
         width:"auto", display: "block", 
@@ -13,13 +13,15 @@ export default function CartListCard(props){
         marginTop:"20px"
     }
     return(
-        <div className="col-md-4">
-            <div className="card mb-4 box-shadow">
-                <div className="select2-container--classic">
-                    <img className="card-img-top" src={props.image} style={imagestyle} />
+        <div className="col-md-4" >
+            <div className="card mb-4 box-shadow" style={{"height":"400px"}}>
+                <div className="card-body" style={{overflow:"auto"}}>
+                    <div className="select2-container--classic">
+                        <img className="card-img-top" src={props.image} style={imagestyle} />
+                    </div>
+                    <p className="card-text">{props.name}</p>
                 </div>
                 <div className="card-body">
-                    <p className="card-text">{props.name}</p>
                     <h5 style={{color:"green"}}>{props.price+" INR"}</h5>
                     <div className = "count">
                         {"quantity  : "+props.quantity} 
@@ -29,13 +31,9 @@ export default function CartListCard(props){
                         </div>
                     </div>
                     <div style={{color:"grey"}}>{"Total : "+props.totalprice+" INR"}</div>
-                    <br/>
-                    <div className="d-flex justify-content-between align-items-center">
-                        <br/>
-                        <div className="btn-group">
-                        <Link to={props.to}><button type="button" className="btn btn-sm btn-outline-secondary">View</button></Link>
-                        </div>
-                    </div>
+                </div>
+                <div className="card-footer d-flex justify-content-between align-items-center">
+                  <Link to={props.to}><button type="button" className="btn btn-sm btn-outline-secondary">View</button></Link>
                 </div>
             </div>
     </div>

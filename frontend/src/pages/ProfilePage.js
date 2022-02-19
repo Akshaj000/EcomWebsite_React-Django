@@ -32,13 +32,12 @@ export default function ProfilePage(){
     })
 
     return(
-        <main>
-            <div className="container" style={{padding:"20px"}}>
-                <div className="card">
-                        <div className="container" style={{"text-align":"justify",padding:"50px"}}>
+        <main class="main">
+            <div className="card" style={{padding:"20px",marginTop:"1%",marginRight:"2%",marginLeft:"2%"}}>
+                        <div className="" style={{"text-align":"justify",padding:"50px"}}>
                             <h5><strong>@{user.username}</strong></h5>
                         </div>
-                        <div className="container" style={{"text-align":"justify",paddingRight:"50px",paddingBottom:"50px",paddingLeft:"50px"}}>
+                        <div style={{"text-align":"justify",paddingRight:"50px",paddingBottom:"50px",paddingLeft:"50px"}}>
                             <div id="savedprofilecontent" style={{display:"block"}}>
                                 <pre><p>Name       :  {customerDetail.name}</p></pre>
                                 <pre><p>Email      :  {customerDetail.email}</p></pre>
@@ -63,7 +62,6 @@ export default function ProfilePage(){
                             postalcode={customerDetail.postalcode}
                             />
                         </div>
-                </div>
             </div>
         </main>
     )

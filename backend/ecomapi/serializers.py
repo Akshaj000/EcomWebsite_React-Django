@@ -1,3 +1,4 @@
+from dataclasses import field
 from rest_framework.serializers import ModelSerializer
 from ecomapi.models import Category, Customer, Product, Cart, Order
 

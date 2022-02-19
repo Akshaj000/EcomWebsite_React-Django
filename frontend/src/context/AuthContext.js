@@ -105,7 +105,6 @@ export  const AuthProvider = ({children}) => {
             setUser(user)
             setIsSuperUser(user.superuser)
             localStorage.setItem('authToken',JSON.stringify(response.data))
-            navigate('/')
         })
         .catch(function (error) {
             logoutUser()
@@ -131,7 +130,7 @@ export  const AuthProvider = ({children}) => {
         if(loading){
             updateToken()
         }
-        let fourMinutes = 1000*60*4
+        let fourMinutes = 1000*60*8
         let interval = setInterval(() => {
             if(authToken){
                 updateToken()

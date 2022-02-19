@@ -223,3 +223,8 @@ code {
 label {
     margin-bottom: 3px;
 }
+
+.main {
+    height: 83vh;
+    overflow: auto;
+}

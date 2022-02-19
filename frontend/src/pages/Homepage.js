@@ -10,9 +10,8 @@ const Homepage=()=>{
 
     let{productList} = useContext(ProductContext)
     return (
-        <main role="main">
-            <div className="album py-3 bg-light ">
-                <div style={{margin:"30px",padding:"auto"}}>
+        <main class="main">
+            <div className="album py-3 bg-light " style={{marginTop:"1%",marginLeft:"5%",marginRight:"5%",padding:"auto"}}>
                     <div className="row">
                         {productList.length>0 ? productList.map(productlist=>(
                             <Card 
@@ -24,7 +23,6 @@ const Homepage=()=>{
                             />
                         )):<Warningcard message={<img src="https://i.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.webp" width={"100px"}/>}/>}
                     </div>
-                </div>
             </div>
         </main>
     );

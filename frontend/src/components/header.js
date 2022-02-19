@@ -2,12 +2,14 @@ import React from "react";
 import {Link} from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import ProductContext from "../context/ProductContext";
+import SearchContext from "../context/SearchContext";
 
 export default function Header(){
-
     let {logoutUser}  = useContext(AuthContext)
     let {isSuperUser} = useContext(AuthContext)
     let {user} = useContext(AuthContext)
+    let {fetchSearch} = useContext(SearchContext)
     
     const dropdownbutton = (
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,15 +18,15 @@ export default function Header(){
     )
 
     const searchform = (
-        <form method="get" className="form-inline my-2 my-lg-0" action="/search/">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" name="q" aria-label="Search"/>
-            <button className="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+        <form className="form-inline my-2 my-lg-0" onSubmit={fetchSearch}>
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" name="q"/>
+            <input className="btn btn-outline-secondary my-2 my-sm-0" type="submit" value="Search"/>
         </form>
     )
 
     return(
         <nav  className="navbar navbar-expand-lg navbar-dark bg-dark">
-            <Link className="navbar-brand" to="/">ShoppingWebsite</Link>
+            <Link className="navbar-brand" to="/">Shopping website {isSuperUser?"SU":""}</Link>
             {dropdownbutton}
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">

@@ -49,20 +49,18 @@ export default function Product(){
     }
 
     const imagestyle={
-        maxHeight:"450px", 
-        width:"auto", 
-        display: "block", 
-        marginLeft: "auto", 
-        marginRight: "auto", 
-        marginTop:"20px"
+        "width": "90%",
+        "maxWidth": "500px",
+        height: "auto",
+        display: "block",
+        marginLeft: "auto",
+        marginRight: "auto"
     }
 
     return(
         <main class="main">
-            <br/>
-            <div className="container">
-                <div className="card mb-4 box-shadow">
-                    <div className="select2-container--classNameic">
+                <div className="card mb-4 box-shadow" style={{marginTop:"1%",marginLeft:"5%",marginRight:"5%"}}>
+                    <div style={{marginTop:"1%"}}>
                         <img id="ProductImage" className="card-img-top" src={rooturl+product.product.image} style={imagestyle} />
                     </div>
                     <div className="card-body">
@@ -83,12 +81,15 @@ export default function Product(){
                                  <button id="DeleteProductCancelButton" onClick={()=>handleCancel()} type="button" onclick="" style={{float:"right",margin:"1px",display:"none"}} className="btn btn-sm btn-warning">CANCEL</button>
                                  <button id="DeleteProductConfirmButton" onClick={()=>deleteProduct(product.product.id)} type="button" onclick="" style={{float:"right",margin:"1px",display:"none"}} className="btn btn-sm btn-danger">CONFIRM DELETE !</button>
                                 </>:
+                                <>
                                  <Link to="/cart"><button onClickCapture={()=>increment(product.product.id)} type="button" style={{margin:"1px"}} className="btn btn-sm btn-outline-info">ADD TO CART</button></Link>
+                                </>
                                 }
                            
                         </div>
                     </div>
                     {isSuperUser?
+                        <>
                         <ProductForm id="ProductEditForm"
                         onSubmit={editProduct}
                         style={{display:"none"}}
@@ -97,11 +98,13 @@ export default function Product(){
                         price={product.product.price}
                         description ={product.product.description}
                         category = {product.product.category}
-                        />:""
+                        />
+                        
+                        </>
+                        :""
                     }
                     </div>
                 </div>
-            </div>
         </main>
     );
 }

@@ -4,6 +4,7 @@ import { useContext } from "react";
 import CategoryContext from "../context/CategoryContext";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function ProductForm(props){
 
@@ -13,6 +14,10 @@ export default function ProductForm(props){
   let handleImageChange=(e)=>{
     let image = e.target.files[0]
     document.getElementById("ProductFormImage").src = URL.createObjectURL(image)
+  }
+
+  let handleOnClick=()=>{
+
   }
 
   return(
@@ -43,6 +48,8 @@ export default function ProductForm(props){
         </p>
         <p>
           <p>Category :</p>
+          <Link to="/categories"><button type="button" style={{margin:"1px"}} className="btn btn-sm btn-outline-primary">Edit or Add Categories</button></Link>
+          <p></p>
           <select name="category" required className="productformcategoryfield" multiple>
           {categories? categories.map(category=>(
             <Option selected="" id={category.id} name={category.categoryname}/>
