@@ -1,6 +1,3 @@
-from itertools import count, product
-from unicodedata import category
-from xmlrpc.client import boolean
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -15,7 +12,6 @@ from ecomapi.models import*
 from rest_framework import status
 from rest_framework import generics
 from ecomapi.serializers import*
-from django.contrib import auth
 from .serializer import RegisterSerializer, ChangePasswordSerializer
 from rest_framework import generics
 from rest_framework import permissions
@@ -24,63 +20,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
 from rest_framework.parsers import JSONParser, MultiPartParser
-from django.db.models import*
-
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-        token['username'] = user.username
-        token['superuser'] = user.is_superuser
-        return token
-
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
-
-
-
-class RegisterApi(CreateAPIView):
-    model = get_user_model()
-    permission_classes = [
-        permissions.AllowAny 
-    ]
-    serializer_class = RegisterSerializer
-
-
-class ChangePasswordView(generics.UpdateAPIView):
-    """
-    An endpoint for changing password.
-    """
-    serializer_class = ChangePasswordSerializer
-    model = User
-    permission_classes = (IsAuthenticated,)
-
-    def get_object(self, queryset=None):
-        obj = self.request.user
-        return obj
-
-    def update(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        serializer = self.get_serializer(data=request.data)
-
-        if serializer.is_valid():
-            # Check old password
-            if not self.object.check_password(serializer.data.get("old_password")):
-                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
-            # set_password also hashes the password that the user will get
-            self.object.set_password(serializer.data.get("new_password"))
-            self.object.save()
-            response = {
-                'status': 'success',
-                'code': status.HTTP_200_OK,
-                'message': 'Password updated successfully',
-                'data': []
-            }
-
-            return Response(response)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-                
+from django.db.models import*                
 
 @api_view(['GET'])
 def apiOverview(request):
@@ -99,21 +39,24 @@ def apiOverview(request):
 
             'Category List':'/category-list/',
             'Add Category':'/category-add/',
+            'Edit Category':'/category-update/<str:categoryid>',
             'Remove Category':'/category-remove/<str:categoryid>/',
 
-            'Cart List' : '/cart-list/<str:customerid>/',
-            'Cart Detail' : '/cart-detail/<str:cartid>/',
+            'Cart List' : '/cart-list/',
+            'Cart Detail' : '/cart-detail/',
             'Add to cart'  : '/cart-add/<str:productid>/',
             'Remove from cart' : '/cart-remove/<str:productid>/',
-            'Update cart' : '/cart-update/<str:customerid>/<str:productid>/',
 
-            'Order List':'/order-list/<str:customerid>/',
+            'Order List':'/order-list/',
             'Order Detail':'/order-detail/<str:orderid>/',
             'Place Order' : '/order-add/',
             'Delete Order' : '/order-remove/<str:orderid>/',
-            'Update Order' : '/order-update/<str:orderid>/',
+
+
             'Authenticate Token' : '/token/',
             'refresh Token' : '/token/refresh/',
+            'register user':'/register/',
+            'change password':'/change-password/'
             
         } 
         return Response(api_urls)
@@ -210,7 +153,7 @@ class ProductEditImageView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#Search---------
+#Search-------------------------------------------------------------------------------------------------------------------
 
 @api_view(['GET'])
 def search(request):
@@ -224,7 +167,7 @@ def search(request):
     return Response(serialiser.data)
 
 
-#Category--------------------------------------------------------------------
+#Category----------------------------------------------------------------------------------------------------------
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -260,9 +203,7 @@ def removeCategory(request,categoryid):
     category.delete()
     return Response("Category successfully deleted!")
         
-    
-
-#Cart--------------------------------------------------------------------------
+#Cart----------------------------------------------------------------------------------------------------------
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -272,15 +213,6 @@ def cartList(request):
     serializer = CartSerializer(cart, many=True)
     return Response(serializer.data)
 
-    
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def cartDetail(request,cartid):
-    cart = Cart.objects.get(id=cartid)
-    serialiser = ProductSerializer(cart, many=False)
-    return Response(serialiser.data)
-        
-    
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def addCart(request,productid):
@@ -315,22 +247,8 @@ def removeCart(request,productid,instantremove):
         except:
             return Response("Cart doesnt exist")
         
-    
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def updateCart(request,productid):
-    try:
-        product = Product.objects.get(id=productid)
-        cart = Cart.objects.get(product=product,user=request.user)
-        serialiser = CartSerializer(instance=cart,data=request.data)
-        if serialiser.is_valid():
-            serialiser.save(user=request.user)
-        return Response(serialiser.data)
-    except:
-        return Response("Cart doesnt exist")
         
-    
-#Orders------------------------------------------------------------------------------
+#Orders----------------------------------------------------------------------------------------------------------
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -356,23 +274,60 @@ def addOrder(request):
         return Response("serialised")
     return Response(serialiser.data)
     
-    
-@api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
-def removeOrder(request,orderid):
-    order = Product.objects.get(id=orderid)
-    order.delete()
-    return Response("Order successfully deleted!")   
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def updateOrder(request,orderid):
-    order = Order.objects.get(id=orderid)
-    serialiser = OrderSerializer(instance=order,data=request.data)
-    if serialiser.is_valid():
-        serialiser.save()
-    return Response(serialiser.data)
+#Accounts----------------------------------------------------------------------------------------------------------
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['username'] = user.username
+        token['superuser'] = user.is_superuser
+        return token
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 
 
+class RegisterApi(CreateAPIView):
+    model = get_user_model()
+    permission_classes = [
+        permissions.AllowAny 
+    ]
+    serializer_class = RegisterSerializer
 
+
+class ChangePasswordView(generics.UpdateAPIView):
+    """
+    An endpoint for changing password.
+    """
+    serializer_class = ChangePasswordSerializer
+    model = User
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.object.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            # set_password also hashes the password that the user will get
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': 'Password updated successfully',
+                'data': []
+            }
+
+            return Response(response)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
