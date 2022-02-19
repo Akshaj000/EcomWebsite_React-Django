@@ -2,7 +2,7 @@ import React from "react"
 
 export default function Warningcard(props){
     return(
-        <div className="container">
+        <div className="card container" style={{marginTop:"2%"}}>
             <div className="">
                 <div className="card-body">
                       <br/>

@@ -15,11 +15,21 @@ export function increment(id){
 
 export function decrement(id){
     let Token = JSON.parse(localStorage.getItem('authToken')).access
-    axios.get(rooturl+'/api/cart-remove/'+id+"/",{
+    axios.get(rooturl+'/api/cart-remove/'+id+"/false/",{
         headers:{
             'Authorization':`Bearer ${Token}`
         }
-    })
+    }).then(res=>{})
 
 }
 
+
+export function removecart(id){
+    console.log("here",id)
+    let Token = JSON.parse(localStorage.getItem('authToken')).access
+    axios.delete(rooturl+'/api/cart-remove/'+id+"/true/",{
+        headers:{
+            'Authorization':`Bearer ${Token}`
+        }
+    }).then(res=>{})
+}

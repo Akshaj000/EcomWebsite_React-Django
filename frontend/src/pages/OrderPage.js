@@ -35,7 +35,7 @@ export default function Order(){
 
                 <li className="list-group-item d-flex justify-content-between lh-sm ">
                 <div>
-                    <Link to={"/invoice/"+order.product+"/"}><h6 onClick={()=>onClickhandler(order)} className="my-0"><span className="text-secondary">{giveoutName(order.product)}</span><span className="text-info"><strong>{" x "+order.count}</strong></span></h6></Link>
+                    <Link to={"/invoice/"+order.id+"/"}><h6 onClick={()=>onClickhandler(order)} className="my-0"><span className="text-secondary">{giveoutName(order.product)}</span><span className="text-info"><strong>{" x "+order.count}</strong></span></h6></Link>
                     <small className="text-muted">{order.date_ordered.substring(0,10)}</small>
                 </div>
                 {order.payment_status?

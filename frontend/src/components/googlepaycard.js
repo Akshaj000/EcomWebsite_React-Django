@@ -1,8 +1,13 @@
 import React from "react";
 import GooglePayButton from '@google-pay/button-react';
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import OrderContext from "../context/OrderContext";
+
 export default function Googlepaybutton(props){
     let Navigate = useNavigate()
+
+    let {addOrder} = useContext(OrderContext)
 
     let onCLickhandler=()=>{
         console.log("clicked")
@@ -45,8 +50,9 @@ export default function Googlepaybutton(props){
           }}
         onLoadPaymentData={paymentData=>{
             console.log('TODO: send order to server', paymentData.paymentMethodData);
+            addOrder(props.cartList,true)
         }}
-        onCancel={() => alert('Cancelled')}
+        onCancel={() => addOrder(props.cartList,false)}
     />
     )
 }

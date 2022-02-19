@@ -28,11 +28,11 @@ urlpatterns  = [
 
     path('cart-list/',views.cartList,name="cart-list"),
     path('cart-add/<str:productid>/',views.addCart,name="cart-add"),
-    path('cart-remove/<str:productid>/',views.removeCart,name="cart-remove"),
+    path('cart-remove/<str:productid>/<str:instantremove>/',views.removeCart,name="cart-remove"),
     path('cart-update/<str:productid>/',views.updateCart,name="cart-update"),
 
     path('order-list/',views.orderList,name="order-list"),
-    path('order-detail/',views.orderDetail,name="order-detail"),
+    path('order-detail/<str:orderid>/',views.orderDetail,name="order-detail"),
     path('order-add/',views.addOrder,name="order-add"),
 
     

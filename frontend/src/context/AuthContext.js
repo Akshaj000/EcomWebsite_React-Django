@@ -78,8 +78,12 @@ export  const AuthProvider = ({children}) => {
                 navigate("/login")
             })
             .catch(err => {
-                console.log(err)
+                document.getElementById("changepwdPNM").style.display = "none";
+                document.getElementById("changepwdONM").style.display = "block";
             })
+        }
+        else{
+           document.getElementById("changepwdPNM").style.display = "block";
         }
         
 

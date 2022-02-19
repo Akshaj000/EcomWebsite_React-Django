@@ -1,5 +1,6 @@
 from itertools import count, product
 from unicodedata import category
+from xmlrpc.client import boolean
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -297,10 +298,10 @@ def addCart(request,productid):
     
 @api_view(['DELETE','GET'])
 @permission_classes([IsAuthenticated])
-def removeCart(request,productid,instantremove=False):
+def removeCart(request,productid,instantremove):
     product = Product.objects.get(id=productid)
     cart = Cart.objects.get(product=product,user = request.user)  
-    if instantremove:
+    if instantremove == "true":
         cart.delete()
         return Response("Removed")
     else:
@@ -341,19 +342,20 @@ def orderList(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def orderDetail(request,orderid):
-    order = Order.objects.get(id=orderid)
+    order = Order.objects.get(id=orderid, user=request.user)
     serialiser = OrderSerializer(order, many=False)
     return Response(serialiser.data)
         
     
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def addOrder(request): 
     serialiser = OrderSerializer(data=request.data)
     if serialiser.is_valid():
         serialiser.save(user=request.user)
+        return Response("serialised")
     return Response(serialiser.data)
-        
+    
     
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])

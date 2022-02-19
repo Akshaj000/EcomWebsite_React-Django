@@ -12,7 +12,7 @@ export default function ChangePasscodeForm(){
             <h1 className="head">Change password</h1>
             <div className ="body">
             <form onSubmit={changePassword}>
-                <h3 style={{color:"red"}}>error here</h3>
+                <h3 style={{color:"red"}}><p id="changepwdPNM" style={{display:"none"}}>Password didn't Match!</p><p id="changepwdONM" style={{display:"none"}}>Please check ur old password!</p></h3>
                 <input className="loginfield" type="password" name="old_password" placeholder="Enter old Password" required/>
                 <input className="loginfield" type="password" name="new_password" placeholder="Enter new Password" required/>
                 <input className="loginfield" type="password" name="new_password2" placeholder="Confirm new Password"  required/>

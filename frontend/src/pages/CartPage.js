@@ -87,6 +87,8 @@ export default function CartPage(){
                     <div className="row">
                         {cards}
                     </div>
+                    {totalprice!=0?
+                    <>
                     <div className="list-group-item d-flex justify-content-between">
                         <h4>Total price : </h4>
                         <h3 style={{color:"green"}}><strong>{totalprice.toFixed(2)} INR</strong></h3>
@@ -96,11 +98,13 @@ export default function CartPage(){
                         <button onClick={()=>handleOnClick()} id="checkoutbutton" type="button" className="btn btn-lg btn-outline-success updatecart">CHECKOUT</button>
                         :
                         <>
-                          <Googlepaybutton id="googlepaybutton" style={{display:"none"}} totalPrice={totalprice.toFixed(2)}/>
+                          <Googlepaybutton cartList={cartList} id="googlepaybutton" style={{display:"none"}} totalPrice={totalprice.toFixed(2)}/>
                           <button onClick={()=>handleOnCancel()} id="cancelpaybutton" type="button" className="btn btn-lg btn-outline-secondary updatecart">cancel</button>
                         </>
                         }
                     </div>
+                    </>
+                    :""}
                 </div>
         </main>
     )

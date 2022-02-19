@@ -25,6 +25,7 @@ import { SearchProvider } from "./context/SearchContext";
 import Searchpage from "./pages/SearchPage";
 import { OrderProvider } from "./context/OrderContext";
 import Invoice from "./pages/Invoice";
+import { InvoiceProvider } from "./context/InvoiceContext";
 
 
 
@@ -74,6 +75,7 @@ class Site extends React.Component{
               }/>
               <Route exact path='/cart' element={
                 <PrivateRoute>
+                <OrderProvider>
                 <CartProvider>
                   <ProductProvider>
                       <Header/>
@@ -81,6 +83,7 @@ class Site extends React.Component{
                       <Footer/>
                   </ProductProvider>
                 </CartProvider>
+                </OrderProvider>
                 </PrivateRoute>
               }/>
               <Route exact path='/profile' element={
@@ -102,11 +105,11 @@ class Site extends React.Component{
                 </PrivateRoute>
               }/>
               <Route exact path='/invoice/:id' element={
-                <OrderProvider>
+                <InvoiceProvider>
                   <Header/>
                     <Invoice/>
                   <Footer/>
-                </OrderProvider>
+                </InvoiceProvider>
               }/>
               <Route exact path='/categories' element={
                 <PrivateRoute>
