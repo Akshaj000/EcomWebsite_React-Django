@@ -1,4 +1,7 @@
 # EcomWebsite_React-Django
+
+This is a Simple Ecom Website made using React and Django-rest
+
 https://user-images.githubusercontent.com/83636572/154814992-1612ed78-aa79-4690-8104-4f2d76447db1.mp4
 
 ![Screenshot from 2022-02-19 20-17-10](https://user-images.githubusercontent.com/83636572/154805999-4988cba0-add9-4eb1-a102-cfefd38959cb.png)
